@@ -31,32 +31,36 @@ end subroutine Shell_Sort
 
 end module sort
 
-
+!**************************************
 program advent_day1
 
 use sort
+implicit none
 
-    implicit none
+    integer, dimension(:), allocatable :: p, q
+    integer :: i, n, diffsum
 
-    integer :: iunit, i, diffsum, n
-    !logical :: status_ok
-!    character(len=:),allocatable :: line
-    integer,dimension(:),allocatable :: col1,col2
+    n = 1000
+    allocate(p(n), q(n))
 
-!    iunit = 1
-    open(newunit=iunit,file='inputs/day1.txt',status='old',action='read')
-    n = 1000      ! lines in file. fix to read by itself if time.
-    allocate(col1(n),col2(n))
-    do i = 1, n
-        read(iunit, *) col1(i), col2(i)
+    ! read data from a file
+    open(2, file='inputs/day1.txt', status='old')
+    do i=1,n
+        read(2,*) p(i), q(i)
     end do
-    close(iunit)
+    close(2)
 
-    ! part 1
-    call Shell_Sort(col1)
-    call Shell_Sort(col2)
-    diffsum = sum(abs(col2-col1))
+    ! sort each array
+    call Shell_Sort(p)
+    call Shell_Sort(q)
+
+    ! write data to new file
+    open(3, file='inputs/day1_2.txt', status='new')
+    do i=1,n
+        write(3,*) p(i), q(i)
+    end do
+    close(3)
+
+    diffsum = sum(abs(q-p))
     write(*,*) '1a: sum=', diffsum
-
-
-end program
+end program advent_day1
