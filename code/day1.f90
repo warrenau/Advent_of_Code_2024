@@ -38,7 +38,7 @@ use sort
 implicit none
 
     integer, dimension(:), allocatable :: p, q
-    integer :: i, n, diffsum
+    integer :: i, j, n, diffsum, count, score
 
     n = 1000
     allocate(p(n), q(n))
@@ -63,4 +63,18 @@ implicit none
 
     diffsum = sum(abs(q-p))
     write(*,*) '1a: sum=', diffsum
+
+
+    ! part 2
+    score = 0
+    do i=1,n
+        count = 0
+        do j=1,n
+            if (p(i) == q(j)) then
+                count = count + 1
+            end if
+        end do
+        score = score + (p(i)*count)
+    end do
+    write(*,*) '1b: sim score=', score
 end program advent_day1
